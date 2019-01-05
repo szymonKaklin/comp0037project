@@ -66,26 +66,31 @@ namespace stdr_robot {
 
     //ROS_ERROR_STREAM(__PRETTY_FUNCTION__ << ": _pose=" << _pose);
 
-    if (fabs(_currentTwist.angular.z) < 1e-6) {
+    // Some thresholding. A bit arbitrary. Specifically, linear speed clamped to 2m/s, and
+    // angular velocity to 10deg / s
+
+    float linearX = max(min(_currentTwist.linear.x, 2), -2);//_currentTwist.linear.x;//
+    float angularZ = max(min(_currentTwist.linear.x, 20*M_PI/180), -20*M_PI/180);//_currentTwist.angular.z;//
+
+    if (fabs(angularZ) < 1e-6) {
       //ROS_ERROR_STREAM(__PRETTY_FUNCTION__ << ": _currentTwist.angular.z == 0");
       
-      _pose.x += _currentTwist.linear.x * dt.toSec() * cosf(_pose.theta);
-      _pose.y += _currentTwist.linear.x * dt.toSec() * sinf(_pose.theta);
+      _pose.x += linearX * dt.toSec() * cosf(_pose.theta);
+      _pose.y += linearX * dt.toSec() * sinf(_pose.theta);
     }
     else {
+      _pose.x += - linearX / angularZ * 
+	sinf(_pose.theta) + 
+        linearX / angularZ * 
+        sinf(_pose.theta + dt.toSec() * angularZ);
       
-      _pose.x += - _currentTwist.linear.x / _currentTwist.angular.z * 
-        sinf(_pose.theta) + 
-        _currentTwist.linear.x / _currentTwist.angular.z * 
-        sinf(_pose.theta + dt.toSec() * _currentTwist.angular.z);
-      
-      _pose.y -= - _currentTwist.linear.x / _currentTwist.angular.z * 
+      _pose.y -= - linearX / angularZ * 
         cosf(_pose.theta) + 
-        _currentTwist.linear.x / _currentTwist.angular.z * 
-        cosf(_pose.theta + dt.toSec() * _currentTwist.angular.z);
+        linearX / angularZ * 
+        cosf(_pose.theta + dt.toSec() * angularZ);
     }
-    _pose.theta += _currentTwist.angular.z * dt.toSec();
-
+    _pose.theta += angularZ * dt.toSec();
+    
     //ROS_ERROR_STREAM(__PRETTY_FUNCTION__ << ": _updatedPose=" << _pose);
 
   }
