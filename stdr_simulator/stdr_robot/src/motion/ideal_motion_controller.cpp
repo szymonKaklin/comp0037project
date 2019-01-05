@@ -69,8 +69,11 @@ namespace stdr_robot {
     // Some thresholding. A bit arbitrary. Specifically, linear speed clamped to 2m/s, and
     // angular velocity to 10deg / s
 
-    float linearX = max(min(_currentTwist.linear.x, 2), -2);//_currentTwist.linear.x;//
-    float angularZ = max(min(_currentTwist.linear.x, 20*M_PI/180), -20*M_PI/180);//_currentTwist.angular.z;//
+    const double MAX_LINEAR_X = 2;
+    const double MAX_ANGULAR_Z = 20.0 * M_PI / 180.0;
+
+    double linearX = std::max(std::min(_currentTwist.linear.x, MAX_LINEAR_X), - MAX_LINEAR_X);//_currentTwist.linear.x;//
+    double angularZ = std::max(std::min(_currentTwist.linear.x, MAX_ANGULAR_Z), - MAX_ANGULAR_Z);//_currentTwist.angular.z;//
 
     if (fabs(angularZ) < 1e-6) {
       //ROS_ERROR_STREAM(__PRETTY_FUNCTION__ << ": _currentTwist.angular.z == 0");
