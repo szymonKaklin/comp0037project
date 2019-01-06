@@ -73,7 +73,7 @@ namespace stdr_robot {
     const double MAX_ANGULAR_Z = 20.0 * M_PI / 180.0;
 
     double linearX = std::max(std::min(_currentTwist.linear.x, MAX_LINEAR_X), - MAX_LINEAR_X);//_currentTwist.linear.x;//
-    double angularZ = std::max(std::min(_currentTwist.linear.x, MAX_ANGULAR_Z), - MAX_ANGULAR_Z);//_currentTwist.angular.z;//
+    double angularZ = std::max(std::min(_currentTwist.angular.z, MAX_ANGULAR_Z), - MAX_ANGULAR_Z);//_currentTwist.angular.z;//
 
     if (fabs(angularZ) < 1e-6) {
       //ROS_ERROR_STREAM(__PRETTY_FUNCTION__ << ": _currentTwist.angular.z == 0");
