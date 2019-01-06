@@ -12,11 +12,11 @@ class stdr_controller():
         #Creating our node,publisher and subscriber
         rospy.init_node('stdr_controller', anonymous=True)
         self.velocity_publisher = rospy.Publisher('/robot0/cmd_vel', Twist, queue_size=10)
-        self.current_pose_subscriber = rospy.Subscriber('/robot0/odom', Odometry, self.current_callback)
+        self.current_pose_subscriber = rospy.Subscriber('/robot0/odom', Odometry, self.current_pose_callback)
         self.current_pose = Odometry()
         self.distance_tolerance = 0.01
  
-    def current_callback(self, data):
+    def current_pose_callback(self, data):
         self.current_pose = data
 
     def run(self):
@@ -35,7 +35,7 @@ class stdr_controller():
             position = pose.position
  
             # The pose returns the orientation as a quaternion, which is a 4D representation of 3D
-            # rotations. We just want the heading angle, so some conversion is required
+            # rotations. We just want the heading angle, so some conversion is required.
             # 
             orientation = pose.orientation
 
