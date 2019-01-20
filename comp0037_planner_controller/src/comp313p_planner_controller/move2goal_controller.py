@@ -75,7 +75,7 @@ class Move2GoalController(ControllerBase):
             angleError = self.shortestAngularDistance(self.pose.theta,
                                                       atan2(waypoint[1] - self.pose.y, waypoint[0] - self.pose.x))
 
-        # Stopping our robot after the movement is over
+        # Make sure the robot is stopped once we reach the destination.
         vel_msg.linear.x = 0
         vel_msg.angular.z = 0
         self.velocityPublisher.publish(vel_msg)
