@@ -298,7 +298,6 @@ namespace stdr_robot
       points.push_back(std::pair<int,int>(x,y));
       d++;
     }
-
     while(d < dist);
     
     return points;
