@@ -39,6 +39,11 @@ namespace stdr_gui
     map_max_ = QPoint(0,0);
     zoom_ = 0;
   }
+
+  CMapLoader::~CMapLoader()
+  {
+    delete internal_img_;
+  }
   
   /**
   @brief Captures the resize event
