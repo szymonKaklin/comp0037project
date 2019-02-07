@@ -55,7 +55,7 @@ namespace stdr_gui{
       std::string("/resources/images/zoom_out.png")).c_str());
     zoom_out_cursor_ = QCursor(p.scaled(20,20));
     
-    bool map_initialized_ = false;
+    map_initialized_ = false;
   }
   
   /**
