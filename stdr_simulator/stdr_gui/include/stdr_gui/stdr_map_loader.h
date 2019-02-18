@@ -87,6 +87,8 @@ namespace stdr_gui
       @return void
       **/
       CMapLoader(int argc, char **argv);
+
+      ~CMapLoader();
       
       /**
       @brief Sets the initial image size

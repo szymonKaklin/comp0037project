@@ -8,8 +8,6 @@ find_package(catkin REQUIRED COMPONENTS
   cmake_modules
 )
 
-set(CMAKE_BUILD_TYPE Release)
-
 find_package(PkgConfig)
 pkg_check_modules(NEW_YAMLCPP yaml-cpp>=0.5)
 pkg_check_modules(XML libxml-2.0)
