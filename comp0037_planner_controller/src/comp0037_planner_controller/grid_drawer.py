@@ -141,8 +141,9 @@ class SearchGridDrawer(BaseDrawer):
                 return
             for j in range(cellExtent[1]):
                 cellLabel = self.searchGrid.getCellFromCoords((i, j)).label
+                terrain=self.searchGrid.getCellFromCoords((i, j)).terrainCost
                 if cellLabel == CellLabel.OBSTRUCTED:
-                    colour = 'purple'
+                    colour = 'purple'                    
                 elif cellLabel == CellLabel.START:
                     colour = 'green'
                 elif cellLabel == CellLabel.GOAL:
@@ -150,7 +151,9 @@ class SearchGridDrawer(BaseDrawer):
                 elif cellLabel == CellLabel.UNVISITED:
                     colour = 'gray'
                 elif cellLabel == CellLabel.DEAD:
-                    colour = 'black'
+                    # colour = 'black'
+                    v=int(150*(terrain-1))
+                    colour= graphics.color_rgb(v, 0, int(v*.5))
                 else:
                     colour = 'white'
                 self.rectangles[i][j].setFill(colour);

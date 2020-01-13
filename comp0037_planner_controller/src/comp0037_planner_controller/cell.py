@@ -5,13 +5,15 @@
 
 from enum import Enum
 
+
 class CellLabel(Enum):
-    OBSTRUCTED=-3
-    START=-2
-    GOAL=-1
-    UNVISITED=0
-    DEAD=1
-    ALIVE=2
+    OBSTRUCTED = -3
+    START = -2
+    GOAL = -1
+    UNVISITED = 0
+    DEAD = 1
+    ALIVE = 2
+
 
 class Cell(object):
 
@@ -19,10 +21,11 @@ class Cell(object):
 
         # Set coordinates
         self.coords = coords
-
+        # obstruction ranges from 0. to 1. so Adding 1 so it could be multiplied.
+        self.terrainCost = 1+isOccupied
         # Label the cell
         if (isOccupied == 1):
-            self.label = CellLabel.OBSTRUCTED;
+            self.label = CellLabel.OBSTRUCTED
         else:
             self.label = CellLabel.UNVISITED
 
@@ -32,4 +35,3 @@ class Cell(object):
         # The initial path cost is infinite. For algorithms that need
         # it, this is the necessary initial condition.
         self.pathCost = float("inf")
-

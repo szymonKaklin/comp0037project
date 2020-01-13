@@ -64,7 +64,7 @@ class GeneralForwardSearchAlgorithm(PlannerBase):
     # current cell. This calculation is carried out the same way no matter
     # what heuristics, etc. are used
     def computeLStageAdditiveCost(self, parentCell, cell):
-        
+        #todo J
         # If the parent is empty, this is the start of the path and the
         # cost is 0.
         if (parentCell is None):
@@ -73,7 +73,7 @@ class GeneralForwardSearchAlgorithm(PlannerBase):
         # Cost is the Cartesian distance
         dX = cell.coords[0] - parentCell.coords[0]
         dY = cell.coords[1] - parentCell.coords[1]
-        L = sqrt(dX * dX + dY * dY)
+        L = sqrt(dX * dX + dY * dY)*cell.terrainCost# Multiplied by the terrain cost of the cell
         
         return L
         
