@@ -22,7 +22,7 @@ class Cell(object):
         # Set coordinates
         self.coords = coords
         # obstruction ranges from 0. to 1. so Adding 1 so it could be multiplied.
-        self.terrainCost = 1+isOccupied
+        self.terrainCost = min(1+isOccupied,1.7)# Terrain cost should not go over 1.7 in order to leave space for  dynamic obstacles (its fine, don't worry about it, this works)
         # Label the cell
         if (isOccupied == 1):
             self.label = CellLabel.OBSTRUCTED

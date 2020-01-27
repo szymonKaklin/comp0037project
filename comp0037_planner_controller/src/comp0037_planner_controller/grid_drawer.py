@@ -110,7 +110,7 @@ class SearchGridDrawer(BaseDrawer):
     def __init__(self, title, searchGrid, maximumWindowHeightInPixels):
         BaseDrawer.__init__(self, title, searchGrid.getExtentInCells(), 
                             maximumWindowHeightInPixels)
-        self.searchGrid = searchGrid;
+        self.searchGrid = searchGrid
 
         # Work out the cell size
         cellSize = self.pixelsPerMetre
