@@ -34,8 +34,6 @@ class OccupancyGrid(object):
         self.extent = (self.width, self.height)
         self.grid = [[0 for y in range(self.heightInCells)]
                      for x in range(self.widthInCells)]
-
-        self.complete_grid = []
         self.scale = 1
 
         self.originalGrid = None
@@ -58,7 +56,6 @@ class OccupancyGrid(object):
 
         self.grid = [[0 for y in range(self.heightInCells)]
                      for x in range(self.widthInCells)]
-        self.costGrid = copy.deepcopy(self.grid)
 
         # Get the complete map
         for x in range(self.widthInCells):
