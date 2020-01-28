@@ -1,4 +1,4 @@
-image: lines_terrain.png
+image: empty.png
 resolution: 0.05
 origin: [0.0, 0.0, 0.0]
 occupied_thresh: 0.95

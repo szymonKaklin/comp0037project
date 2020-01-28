@@ -149,7 +149,7 @@ class OccupancyGrid(object):
                             break
                 if occupied == 1:
                     total_cost = 1.
-                else:
+                else:        
                     total_cost = total_cost/(len(x_range)*len(y_range))
 
                 planning_map[x][y] = total_cost
