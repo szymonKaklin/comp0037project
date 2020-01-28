@@ -150,8 +150,8 @@ class SearchGridDrawer(BaseDrawer):
                     colour = 'blue'
                 elif cellLabel == CellLabel.UNVISITED:
                     colour = 'gray'
-                    v=int(250*(terrain-1))
-                    colour= graphics.color_rgb(50+int(v*.5), 50,50+v)
+                    v=int(min(400*(terrain-1),255))
+                    colour= graphics.color_rgb(100+int(v*.5), 100,min(100+v,255))
                 elif cellLabel == CellLabel.DEAD:
                     # colour = 'black'
                     v=int(min(300*(terrain-1),255))
