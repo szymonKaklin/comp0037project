@@ -154,7 +154,7 @@ class SearchGridDrawer(BaseDrawer):
                     colour= graphics.color_rgb(50+int(v*.5), 50,50+v)
                 elif cellLabel == CellLabel.DEAD:
                     # colour = 'black'
-                    v=int(250*(terrain-1))
+                    v=int(min(300*(terrain-1),255))
                     colour= graphics.color_rgb(v, 0, int(v*.5))
                 else:
                     colour = 'white'
