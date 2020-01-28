@@ -5,7 +5,7 @@
   <rosparam param="time_scale_factor">1</rosparam>
 
   <!-- Scenario -->
-  <arg name="map_file" default="$(find comp0037_resources)/maps/factory_terrain.yaml"/>
+  <arg name="map_file" default="$(find comp0037_resources)/maps/factory.yaml"/>
   <arg name="goal_file" default="$(find comp0037_resources)/maps/factory_goals.txt"/>
 
 
