@@ -32,9 +32,12 @@ class SearchGrid(object):
         return self.occupancyGrid.getResolution()
 
     # Reset the state of the search grid to the value of the occupancy grid
-    def updateFromOccupancyGrid(self):
+    def updateFromOccupancyGrid(self):        
         self.grid = [[Cell((x, y), self.occupancyGrid.getCell(x,y)) for y in range(self.height)] \
                      for x in range(self.width)]
+        # print([[self.occupancyGrid.getCell(x,y) for y in range(self.height)] \
+                    #  for x in range(self.width)])
+     
 
     def getCellFromCoords(self, coords):
         return self.grid[coords[0]][coords[1]]

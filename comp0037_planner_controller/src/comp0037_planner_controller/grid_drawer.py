@@ -110,7 +110,7 @@ class SearchGridDrawer(BaseDrawer):
     def __init__(self, title, searchGrid, maximumWindowHeightInPixels):
         BaseDrawer.__init__(self, title, searchGrid.getExtentInCells(), 
                             maximumWindowHeightInPixels)
-        self.searchGrid = searchGrid;
+        self.searchGrid = searchGrid
 
         # Work out the cell size
         cellSize = self.pixelsPerMetre
@@ -141,16 +141,21 @@ class SearchGridDrawer(BaseDrawer):
                 return
             for j in range(cellExtent[1]):
                 cellLabel = self.searchGrid.getCellFromCoords((i, j)).label
+                terrain=self.searchGrid.getCellFromCoords((i, j)).terrainCost
                 if cellLabel == CellLabel.OBSTRUCTED:
-                    colour = 'purple'
+                    colour = 'purple'                    
                 elif cellLabel == CellLabel.START:
                     colour = 'green'
                 elif cellLabel == CellLabel.GOAL:
                     colour = 'blue'
                 elif cellLabel == CellLabel.UNVISITED:
                     colour = 'gray'
+                    v=int(min(400*(terrain-1),255))
+                    colour= graphics.color_rgb(100+int(v*.5), 100,min(100+v,255))
                 elif cellLabel == CellLabel.DEAD:
-                    colour = 'black'
+                    # colour = 'black'
+                    v=int(min(300*(terrain-1),255))
+                    colour= graphics.color_rgb(v, 0, int(v*.5))
                 else:
                     colour = 'white'
                 self.rectangles[i][j].setFill(colour);

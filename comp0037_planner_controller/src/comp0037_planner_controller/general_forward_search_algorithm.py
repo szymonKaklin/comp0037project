@@ -25,25 +25,25 @@ class GeneralForwardSearchAlgorithm(PlannerBase):
     def pushCellOntoQueue(self, cell):
         raise NotImplementedError()
 
-    # Self method returns a boolean - true if the queue is empty,
+    # This method returns a boolean - true if the queue is empty,
     # false if it still has some cells on it.
     def isQueueEmpty(self):
         raise NotImplementedError()
 
-    # Self method finds the first cell (at the head of the queue),
+    # This method finds the first cell (at the head of the queue),
     # removes it from the queue, and returns it.
     def popCellFromQueue(self):
         raise NotImplementedError()
 
-    # Self method determines if the goal has been reached.
+    # This method determines if the goal has been reached.
     def hasGoalBeenReached(self, cell):
         raise NotImplementedError()
 
-    # Self method gets the list of cells which could be visited next.
+    # This method gets the list of cells which could be visited next.
     def getNextSetOfCellsToBeVisited(self, cell):
         raise NotImplementedError()
 
-    # Self method determines whether a cell has been visited already.
+    # This method determines whether a cell has been visited already.
     def hasCellBeenVisitedAlready(self, cell):
         raise NotImplementedError()
 
@@ -62,18 +62,25 @@ class GeneralForwardSearchAlgorithm(PlannerBase):
     
     # Compute the additive cost of performing a step from the parent to the
     # current cell. This calculation is carried out the same way no matter
-    # what heuristics, etc. are used
-    def computeLStageAdditiveCost(self, parentCell, cell):
-        
+    # what heuristics, etc. are used. The cost computed here takes account
+    # of the terrain traversability cost using an equation a bit like that
+    # presented in the lectures.
+    def computeLStageAdditiveCost(self, parentCell, cell):       
         # If the parent is empty, this is the start of the path and the
         # cost is 0.
         if (parentCell is None):
             return 0
         
-        # Cost is the Cartesian distance
+        # Travel cost is Cartesian distance
         dX = cell.coords[0] - parentCell.coords[0]
         dY = cell.coords[1] - parentCell.coords[1]
-        L = sqrt(dX * dX + dY * dY)
+        # Terrain cost 
+        #  Run this in matlab to visualise ro check the image
+        # However, basically it builds up extremely quickly
+        # x=[1:0.01:2];
+        # c=min(1+(.2./((1.7-x).^2)).^2,1000);       
+        cost=min(1+(0.2/((1.75-cell.terrainCost)**2))**2, 1000)
+        L = sqrt(dX * dX + dY * dY)*cost# Multiplied by the terrain cost of the cell
         
         return L
         
@@ -89,7 +96,6 @@ class GeneralForwardSearchAlgorithm(PlannerBase):
         
         # Create or update the search grid from the occupancy grid and seed
         # unvisited and occupied cells.
-        
         if (self.searchGrid is None):
             self.searchGrid = SearchGrid.fromOccupancyGrid(self.occupancyGrid)
         else:
@@ -105,6 +111,7 @@ class GeneralForwardSearchAlgorithm(PlannerBase):
         self.goal = self.searchGrid.getCellFromCoords(goalCoords)
         self.goal.label = CellLabel.GOAL
 
+        # If the node is being shut down, bail out here.
         if rospy.is_shutdown():
             return False
 
@@ -121,11 +128,13 @@ class GeneralForwardSearchAlgorithm(PlannerBase):
         # Indicates if we reached the goal or not
         self.goalReached = False
 
-        # Iterate until we have run out of live cells to try or we reached the goal
+        # Iterate until we have run out of live cells to try or we reached the goal.
+        # This is the main computational loop and is the implementation of
+        # LaValle's pseudocode
         while (self.isQueueEmpty() == False):
 
             # Check if ROS is shutting down; if so, abort. This stops the
-            # planner from hanging
+            # planner from hanging.
             if rospy.is_shutdown():
                 return False
             
