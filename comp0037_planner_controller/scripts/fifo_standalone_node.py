@@ -6,12 +6,12 @@ from comp0037_planner_controller.occupancy_grid import OccupancyGrid
 import map_getter
 import rospy
 
-#Initialise node
+# Initialise node
 rospy.init_node('fifo_standalone', anonymous=True)
 
-#Mapgetter  helps load maps off the map server
+# Mapgetter  helps load maps off the map server
 mapGetter = map_getter.MapGetter()
-occupancyGrid=mapGetter.getMapFromServer()
+occupancyGrid = mapGetter.getMapFromServer()
 
 start = rospy.get_param("start_pose")
 goal = rospy.get_param("goal_pose")
