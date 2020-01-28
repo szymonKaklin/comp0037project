@@ -38,4 +38,4 @@ goalReached = planner.search(start, goal)
 path = planner.extractPathToGoal()
 
 # Note that you can run multiple planners - each one will create and update its own window.
-# See the minkowski_sum_tester asn an example
+# See the minkowski_sum_tester as an example
