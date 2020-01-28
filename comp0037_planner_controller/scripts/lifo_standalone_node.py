@@ -13,9 +13,8 @@ rospy.init_node('lifo_standalone', anonymous=True)
 mapGetter = map_getter.MapGetter()
 occupancyGrid=mapGetter.getMapFromServer()
 
-# EDIT START AND GOAL POINTS to illustrated performance of your algorithms
-start = (30, 18)
-goal = (20, 50)
+start = rospy.get_param("start_pose")
+goal = rospy.get_param("goal_pose")
 
 # Create the planner. The first field is the title which will appear in the
 # graphics window, the second the occupancy grid used.
