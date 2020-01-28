@@ -22,7 +22,7 @@ from comp0037_planner_controller.fifo_planner import FIFOPlanner
 # The controller to drive the robot along the path
 from comp0037_planner_controller.move2goal_controller import Move2GoalController
 
-# Self class interfaces with the planner and the controller
+# This class interfaces with the planner and the controller
 class PlannerControllerNode(object):
 
     def __init__(self):
@@ -131,7 +131,7 @@ class PlannerControllerNode(object):
         # Set up the wait for the service. Note that we can't directly
         # handle all the driving operations in the service
         # handler. The reason is that the planner can create a GUI,
-        # and self MUST run in the main thread. The result is pretty
+        # and this MUST run in the main thread. The result is pretty
         # ugly logic and can lead to deadlocking.
         service = rospy.Service('drive_to_goal', Goal, self.handleDriveToGoal)
 
