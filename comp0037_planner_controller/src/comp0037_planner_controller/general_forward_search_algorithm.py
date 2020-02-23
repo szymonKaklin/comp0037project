@@ -190,13 +190,29 @@ class GeneralForwardSearchAlgorithm(PlannerBase):
         # Start at the goal and find the parent. Find the cost associated with the parent
         cell = pathEndCell.parent
         path.travelCost = self.computeLStageAdditiveCost(pathEndCell.parent, pathEndCell)
+
+        # Starting at goal, the angle from goal to its parent cell (starting angle for upcoming iteration)
+        path.currentAngle = self.computeAngleToNextCell(pathEndCell.parent, pathEndCell)
         
         # Iterate back through and extract each parent in turn and add
         # it to the path. To work out the travel length along the
         # path, you'll also have to add self at self stage.
         while (cell is not None):
+            print (path.totalAngle)
             path.waypoints.appendleft(cell)
             path.travelCost = path.travelCost + self.computeLStageAdditiveCost(cell.parent, cell)
+
+            # The angle to the next cell
+            path.nextAngle = self.computeAngleToNextCell(cell.parent, cell)
+
+            # If angle to next cell differs from current robot angle, add the difference
+            # (how much the robot must turn) to total angle
+            if (path.nextAngle != path.currentAngle):
+                path.totalAngle = path.totalAngle + abs((path.nextAngle - path.currentAngle))
+
+                # Update current angle
+                path.currentAngle = path.nextAngle
+
             cell = cell.parent
             
         # Update the stats on the size of the path
@@ -209,7 +225,8 @@ class GeneralForwardSearchAlgorithm(PlannerBase):
 
         print "Path travel cost = " + str(path.travelCost)
         print "Path cardinality = " + str(path.numberOfWaypoints)
-        
+        print "Path total angle = " + str(path.totalAngle)
+
         # Draw the path if requested
         if (self.showGraphics == True):
             self.plannerDrawer.update()
@@ -231,4 +248,27 @@ class GeneralForwardSearchAlgorithm(PlannerBase):
         path = self.extractPathEndingAtCell(self.goal, 'yellow')
        
         return path
-            
+
+
+    # Compute the angle to the next cell (robot pointing up is 0)
+    def computeAngleToNextCell(self, parentCell, cell):       
+        # If the parent is empty, this is the start of the path and the
+        # angle is 0.
+        if (parentCell is None):
+            return 0
+
+        # Differences in x and y coordinates of parent and next cell
+        dX = cell.coords[0] - parentCell.coords[0]
+        dY = cell.coords[1] - parentCell.coords[1]
+
+        # Checks for divsion by 0
+        if (dX == 0 and dY == 1):
+            return 0
+        elif (dX == 0 and dY == -1):
+            return 180
+
+        # Computing the angle to turn (rounded)
+        angleToNextCell = atan(dY/dX) * (180/pi)
+
+        return angleToNextCell
+        

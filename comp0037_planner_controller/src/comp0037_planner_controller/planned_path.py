@@ -19,3 +19,9 @@ class PlannedPath(object):
         # travel cost of the path.
         self.numberOfWaypoints = 0
         self.travelCost = 0
+
+        # ADDITION
+        # The angle the robot is currently turned to
+        self.currentAngle = 0
+        # The total angle the robot has to turn to carry out the planned path
+        self.totalAngle = 0
